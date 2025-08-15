@@ -1,12 +1,14 @@
 'use strict';
-
+// Ustawienia
 const optArticleSelector = '.post',
   optTitleSelector = '.post-title',
   optTitleListSelector = '.titles',
   optArticleTagsSelector = '.post-tags .list',
   optArticleAuthorSelector = '.post-author',
-  optAuthorsListSelector = '.authors-list';
+  optAuthorsListSelector = '.authors-list',
+  optTagsListSelector = '.tags.list';
 
+// Funkcja kliknięcia w art
 function titleClickHandler(event) {
   event.preventDefault();
   const clickedElement = this;
@@ -30,6 +32,7 @@ function titleClickHandler(event) {
   }
 }
 
+// Generowanie listy linków do art
 function generateTitleLinks(customSelector = '') {
   const titleList = document.querySelector(optTitleListSelector);
   titleList.innerHTML = '';
@@ -51,6 +54,7 @@ function generateTitleLinks(customSelector = '') {
   }
 }
 
+// Generowanie tagów do art
 function generateTags() {
   const articles = document.querySelectorAll(optArticleSelector);
   for (let article of articles) {
@@ -74,6 +78,7 @@ function generateTags() {
   }
 }
 
+// Kliknięcia w tagi
 function tagClickHandler(event){
   event.preventDefault();
   const clickedElement = this;
@@ -93,6 +98,7 @@ function tagClickHandler(event){
   generateTitleLinks('[data-tags~="' + tag + '"]');
 }
 
+// Dodaje clicklistery do tagów
 function addClickListenersToTags(){
   const tagLinks = document.querySelectorAll('a[href^="#tag-"]');
   for (let tagLink of tagLinks) {
@@ -100,6 +106,7 @@ function addClickListenersToTags(){
   }
 }
 
+// Generuje autorów w art
 function generateAuthorsInArticles() {
   const articles = document.querySelectorAll(optArticleSelector);
   for (let article of articles) {
@@ -111,6 +118,7 @@ function generateAuthorsInArticles() {
   }
 }
 
+//  Generuje liste autorów po prawej stronie
 function generateAuthorsSidebar() {
   const articles = document.querySelectorAll(optArticleSelector);
   const authors = {};
@@ -136,6 +144,7 @@ function generateAuthorsSidebar() {
   }
 }
 
+// Kliknięcie w autora
 function authorClickHandler(event) {
   event.preventDefault();
   const clickedElement = this;
@@ -155,11 +164,56 @@ function authorClickHandler(event) {
   generateTitleLinks('[data-author="' + author + '"]');
 }
 
+
+// Dodanie cliclisterów do autorów
 function addClickListenersToAuthors() {
   const authorLinks = document.querySelectorAll('a[href^="#author-"]');
   for (let authorLink of authorLinks) {
     authorLink.addEventListener('click', authorClickHandler);
   }
+}
+
+// Wyświetlanie listy tagów
+
+function generateTags(){
+  /* [NEW] create a new variable allTags with an empty array */
+  let allTags = [];
+
+  /* find all articles */
+
+  /* START LOOP: for every article: */
+
+    /* find tags wrapper */
+
+    /* make html variable with empty string */
+
+    /* get tags from data-tags attribute */
+
+    /* split tags into array */
+
+    /* START LOOP: for each tag */
+
+      /* generate HTML of the link */
+
+      /* add generated code to html variable */
+
+      /* [NEW] check if this link is NOT already in allTags */
+      if(allTags.indexOf(linkHTML) == -1){
+        /* [NEW] add generated code to allTags array */
+        allTags.push(linkHTML);
+      }
+
+    /* END LOOP: for each tag */
+
+    /* insert HTML of all the links into the tags wrapper */
+
+  /* END LOOP: for every article: */
+
+  /* [NEW] find list of tags in right column */
+  const tagList = document.querySelector(optTagsListSelector);
+
+  /* [NEW] add html from allTags to tagList */
+  tagList.innerHTML = allTags.join(' ');
 }
 
 generateTitleLinks();
