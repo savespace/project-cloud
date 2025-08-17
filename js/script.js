@@ -56,10 +56,14 @@ function generateTitleLinks(customSelector = '') {
 
 // Generowanie tagów do art
 function generateTags() {
+  let allTags = [];
+
   const articles = document.querySelectorAll(optArticleSelector);
   for (let article of articles) {
     const tagWrapper = article.querySelector(optArticleTagsSelector);
     if (!tagWrapper) continue;
+
+    let html = '';
 
     const articleTags = article.getAttribute('data-tags');
     if (!articleTags) {
@@ -68,14 +72,21 @@ function generateTags() {
     }
 
     const tagsArray = articleTags.split(' ').filter(Boolean);
-    let html = '';
 
     for (let tag of tagsArray) {
-      html += '<li><a href="#tag-' + tag + '">' + tag + '</a></li> ';
+      const linkHTML = '<li><a href="#tag-' + tag + '">' + tag + '</a></li> ';
+      html += linkHTML + ' ';
+
+      if (allTags.indexOf(linkHTML) == -1) {
+        allTags.push(linkHTML);
+      }
     }
 
     tagWrapper.innerHTML = html;
   }
+
+  const tagList = document.querySelector(optTagsListSelector);
+  tagList.innerHTML = allTags.join(' ');
 }
 
 // Kliknięcia w tagi
@@ -175,50 +186,11 @@ function addClickListenersToAuthors() {
 
 // Wyświetlanie listy tagów
 
-function generateTags(){
-  /* [NEW] create a new variable allTags with an empty array */
-  let allTags = [];
 
-  /* find all articles */
-
-  /* START LOOP: for every article: */
-
-    /* find tags wrapper */
-
-    /* make html variable with empty string */
-
-    /* get tags from data-tags attribute */
-
-    /* split tags into array */
-
-    /* START LOOP: for each tag */
-
-      /* generate HTML of the link */
-
-      /* add generated code to html variable */
-
-      /* [NEW] check if this link is NOT already in allTags */
-      if(allTags.indexOf(linkHTML) == -1){
-        /* [NEW] add generated code to allTags array */
-        allTags.push(linkHTML);
-      }
-
-    /* END LOOP: for each tag */
-
-    /* insert HTML of all the links into the tags wrapper */
-
-  /* END LOOP: for every article: */
-
-  /* [NEW] find list of tags in right column */
-  const tagList = document.querySelector(optTagsListSelector);
-
-  /* [NEW] add html from allTags to tagList */
-  tagList.innerHTML = allTags.join(' ');
-}
 
 generateTitleLinks();
 generateTags();
-addClickListenersToTags();
 generateAuthorsInArticles();
 generateAuthorsSidebar();
+addClickListenersToTags();
 addClickListenersToAuthors();
