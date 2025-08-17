@@ -56,7 +56,7 @@ function generateTitleLinks(customSelector = '') {
 
 // Generowanie tagów do art
 function generateTags() {
-  let allTags = [];
+  let allTags = {};
 
   const articles = document.querySelectorAll(optArticleSelector);
   for (let article of articles) {
@@ -77,8 +77,11 @@ function generateTags() {
       const linkHTML = '<li><a href="#tag-' + tag + '">' + tag + '</a></li> ';
       html += linkHTML + ' ';
 
-      if (allTags.indexOf(linkHTML) == -1) {
-        allTags.push(linkHTML);
+      if (!allTags.hasOwnProperty(tag)) {
+        allTags[tag] = 1;
+        console.log(allTags);
+      } else {
+        allTags[tag]++;
       }
     }
 
@@ -86,7 +89,12 @@ function generateTags() {
   }
 
   const tagList = document.querySelector(optTagsListSelector);
-  tagList.innerHTML = allTags.join(' ');
+
+  let allTagsHTML = '';
+  for(let tag in allTags){
+    allTagsHTML += '<li><a href="#tag-' + tag + '">' + tag + ' (' + allTags[tag] + ')</a></li> ';
+  }
+  tagList.innerHTML = allTagsHTML;
 }
 
 // Kliknięcia w tagi
